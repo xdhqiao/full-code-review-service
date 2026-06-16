@@ -36,10 +36,33 @@ Scheduler -> Repository Scanner -> Codex Reviewer -> JSON Normalizer -> Result P
 官方 Python SDK 包名是：
 
 ```bash
-pip install openai-codex
+pip install openai-codex==0.1.0b3
 ```
 
+当前官方 PyPI 上还没有稳定版 `openai-codex>=0.1.0`，可下载的是 `0.1.0b1`、`0.1.0b2`、`0.1.0b3`。本工程固定为 `0.1.0b3`，避免封闭内网构建时依赖解析漂移。稳定版发布后，可把 `requirements.txt` 改回 `openai-codex>=0.1.0`。
+
 Docker 镜像会通过 `requirements.txt` 自动安装。Codex SDK 会读取 `$CODEX_HOME/config.toml`，本工程在 `docker-compose.yml` 中把示例配置挂载到 `/app/codex-home/config.toml`。
+
+## 离线依赖准备
+
+在有外网的机器上执行：
+
+```bash
+python -m pip download \
+  --only-binary=:all: \
+  --platform manylinux_2_17_x86_64 \
+  --implementation cp \
+  --python-version 311 \
+  --abi cp311 \
+  --dest vendor \
+  -r requirements.txt
+```
+
+封闭内网构建时，Dockerfile 会优先使用 `vendor/` 中的 wheel 包：
+
+```bash
+python -m pip install --no-index --find-links=/app/vendor -r requirements.txt
+```
 
 ## 配置本地大模型
 

@@ -1,0 +1,10 @@
+.git
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+state/
+vendor-linux/
+review-repos/*
+!review-repos/.gitkeep
+

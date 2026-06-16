@@ -1,4 +1,5 @@
-FROM python:3.11-slim
+ARG PYTHON_BASE_IMAGE=python:3.11-slim-bookworm
+FROM ${PYTHON_BASE_IMAGE}
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -8,12 +9,14 @@ ENV PYTHONPATH=/app/src
 
 WORKDIR /app
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends git ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
-
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY vendor ./vendor
+RUN set -eux; \
+    if find /app/vendor -maxdepth 1 -type f \( -name '*.whl' -o -name '*.tar.gz' -o -name '*.zip' \) | grep -q .; then \
+        python -m pip install --no-index --find-links=/app/vendor -r requirements.txt; \
+    else \
+        python -m pip install --no-cache-dir -r requirements.txt; \
+    fi
 
 COPY src ./src
 COPY config ./config

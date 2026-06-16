@@ -4,10 +4,9 @@ version = "0.1.0"
 description = "Scheduled full-repository code review service powered by Codex SDK and local model providers."
 requires-python = ">=3.10"
 dependencies = [
-    "openai-codex>=0.1.0",
+    "openai-codex==0.1.0b3",
 ]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
-

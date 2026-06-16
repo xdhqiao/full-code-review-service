@@ -1,0 +1,13 @@
+# User-level Codex config mounted as $CODEX_HOME/config.toml inside Docker.
+# The provider is intentionally local. No OpenAI/ChatGPT internet endpoint is required.
+
+model_provider = "local_llm"
+model = "qwen2.5-coder:32b"
+
+[model_providers.local_llm]
+name = "Local LLM Gateway"
+base_url = "http://host.docker.internal:11434/v1"
+wire_api = "responses"
+request_max_retries = 2
+stream_max_retries = 2
+stream_idle_timeout_ms = 300000

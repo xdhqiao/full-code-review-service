@@ -1,0 +1,50 @@
+{
+  "scanner": {
+    "interval_seconds": 3600,
+    "run_once": false,
+    "state_path": "/app/state/review_state.json",
+    "post_result_url": "http://demo.api/save/codereview/result",
+    "post_timeout_seconds": 30,
+    "max_files_per_project": 500,
+    "max_file_bytes": 200000,
+    "review_unchanged_on_start": true
+  },
+  "codex": {
+    "mode": "sdk",
+    "model": "qwen2.5-coder:32b",
+    "sandbox": "read_only",
+    "timeout_seconds": 900,
+    "cli_bin": "codex",
+    "reasoning_effort": "medium"
+  },
+  "projects": [
+    {
+      "id": "demo-project",
+      "name": "Demo Project",
+      "path": "/repos/demo-project",
+      "enabled": true,
+      "include_globs": [
+        "**/*.py",
+        "**/*.js",
+        "**/*.ts",
+        "**/*.tsx",
+        "**/*.java",
+        "**/*.go",
+        "**/*.rs",
+        "**/*.sql"
+      ],
+      "exclude_globs": [
+        "**/.git/**",
+        "**/node_modules/**",
+        "**/dist/**",
+        "**/build/**",
+        "**/target/**",
+        "**/.venv/**",
+        "**/vendor/**",
+        "**/*lock*",
+        "**/*.min.js"
+      ]
+    }
+  ]
+}
+

@@ -1,0 +1,18 @@
+services:
+  full-code-review:
+    build: .
+    container_name: full-code-review
+    restart: unless-stopped
+    environment:
+      REVIEW_CONFIG_PATH: /app/config/projects.json
+      CODEX_HOME: /app/codex-home
+      PYTHONPATH: /app/src
+    volumes:
+      - ./config/projects.example.json:/app/config/projects.json:ro
+      - ./config/codex-config.toml.example:/app/codex-home/config.toml:ro
+      - ./state:/app/state
+      # Change the host path to the parent directory that contains all reviewed repositories.
+      - /opt/review-repos:/repos:ro
+    # If the local LLM gateway runs on the Docker host, use host.docker.internal in config.toml.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

@@ -1,5 +1,5 @@
 # Full Code Review Service
-
+(?m)^<!-- KB_SLICE_BOUNDARY_CSTD_V1 -->\r?$
 这是一个用于“全量代码审查”的后台服务示例：定时扫描已下载到本地的多个代码仓库，用 Codex SDK 调用本地大模型做文件级 review，然后把统一 JSON 结果 POST 到后端 API。
 
 默认上报地址：
